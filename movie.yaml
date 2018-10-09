@@ -144,6 +144,8 @@ components:
            format: int64
         title:
           type: string
+        categories:
+          $ref: "#/components/schemas/Category"
      Movies:
        type: array
        items:
@@ -157,7 +159,9 @@ components:
            type: integer
            format: int64
          title:
-          type: string    
+          type: string
+         categories:
+           $ref: "#/components/schemas/Category"
      Error:
        required:
          - code
@@ -168,3 +172,15 @@ components:
            format: int32
          message: 
            type: string
+     Category:
+        type: object
+        properties:
+          id:
+            type: integer
+            format: int64
+          name:
+            type: string
+     Categories:
+           type: array
+           items:
+             $ref: "#/components/schemas/Category"
