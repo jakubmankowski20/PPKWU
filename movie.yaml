@@ -1,0 +1,170 @@
+openapi: 3.0.0
+info:
+  version: 1.0.1
+  title: Lecture API
+  description: description
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    name: Grupa X
+    email: pkapust@iis.p.lodz.pl
+    url: 'http://swagger.io'
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+    - url: 'http://petstore.swagger.io/api'
+paths:
+  /movies:
+    get:
+      summary: List all of the movies
+      operationId: listMovies
+      tags:
+        - movies
+      responses:
+        '200':
+          description: A paged array of movies
+          headers:
+            x-next: 
+              description: A link to the next of responses
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movies'
+    post:
+      summary: Create a movies
+      operationId: createMovies
+      tags:
+        - movies
+      responses:
+        '201':
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /movies/{movieId}:
+    get:
+      summary: Info for a specific movie
+      operationId: showMovieById
+      tags:
+        - movies
+      parameters:
+        - name: movieId
+          in: path
+          required: true
+          description: The id of the pet to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Movie"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+            
+  /series:
+    get:
+      summary: List all of the series
+      operationId: listSeries
+      tags:
+        - series
+      responses:
+        '200':
+          description: A paged array of series
+          headers:
+            x-next: 
+              description: A link to the next of responses
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Series'
+    post:
+      summary: Create a series
+      operationId: createSeries
+      tags:
+        - series
+      responses:
+        '201':
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /series/{seriesId}:
+    get:
+      summary: Info for a specific serie
+      operationId: showMovieById
+      tags:
+        - series
+      parameters:
+        - name: seriesId
+          in: path
+          required: true
+          description: The id of the pet to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Movie"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"              
+        
+components:        
+   schemas:
+     Movie:
+       required: 
+         - id
+         - title
+       properties:
+        id:
+           type: integer
+           format: int64
+        title:
+          type: string
+     Movies:
+       type: array
+       items:
+         $ref: "#/components/schemas/Movie"
+     Series:
+       required: 
+         - id
+         - title
+       properties:
+         id:
+           type: integer
+           format: int64
+         title:
+          type: string    
+     Error:
+       required:
+         - code
+         - message
+       properties:
+         code: 
+           type: integer
+           format: int32
+         message: 
+           type: string
