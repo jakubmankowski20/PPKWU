@@ -46,6 +46,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /movies/findByCategory:
+    get:
+      summary: Find movies by category
+      operationId: findMoviesByCategory
+      tags: 
+        - movies
+      parameters:
+        - name: categories
+          in: path
+          required: true
+          description: The movies in specific category
+          schema:
+            type: "array"
+          # enum: ["horror","komedia","dramat"]
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Movie"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"     
   /movies/{movieId}:
     get:
       summary: Info for a specific movie
@@ -58,7 +85,9 @@ paths:
           required: true
           description: The id of the pet to retrieve
           schema:
-            type: string
+            type: integer
+            format: int64
+            example: 54
       responses:
         '200':
           description: Expected response to a valid request
@@ -142,10 +171,12 @@ components:
         id:
            type: integer
            format: int64
+           example: 54
         title:
           type: string
+          example: W pustyni i w puszczy
         categories:
-          $ref: "#/components/schemas/Category"
+          $ref: "#/components/schemas/Categories"
      Movies:
        type: array
        items:
@@ -161,7 +192,7 @@ components:
          title:
           type: string
          categories:
-           $ref: "#/components/schemas/Category"
+           $ref: "#/components/schemas/Categories"
      Error:
        required:
          - code
