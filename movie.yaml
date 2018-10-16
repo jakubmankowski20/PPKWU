@@ -59,6 +59,8 @@ paths:
           description: The movies in specific category
           schema:
             type: "array"
+            items:
+              $ref: "#/components/schemas/Category"
       responses:
         '200':
           description: Expected response to a valid request
